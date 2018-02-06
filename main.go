@@ -36,6 +36,7 @@ type Configuration struct {
 
 func main() {
 
+
 	configuration := Configuration{}
 	filename := "app.json"
 	log.Println(filename)
