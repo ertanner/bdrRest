@@ -1,0 +1,9 @@
+{
+    "appname": "bdrRest",
+    "httpport": "9080",
+    "runmode": "dev",
+    "mysqluser": "root",
+    "mysqlpass": "Bambie69",
+    "mysqldb": "@/test",
+    "sessionname": "bdrSession"
+}
