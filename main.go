@@ -35,8 +35,9 @@ type Configuration struct {
 }
 
 func main() {
-
-
+	// *******************************************
+	// get configuration
+	// *******************************************
 	configuration := Configuration{}
 	filename := "app.json"
 	log.Println(filename)
@@ -56,8 +57,9 @@ func main() {
 		log.Println("json erorr")
 		os.Exit(500)//return err
 		}
-
+	// ********************************************************
 	// Create the database handle, confirm driver is present
+	// *********************************************************
 	connectString := configuration.Mysqluser + ":" + configuration.Mysqlpass + configuration.Mysqldb
 	log.Println(connectString)
 	db, err = sql.Open("mysql", connectString  ) // "root:Bambie69@/test")
@@ -73,8 +75,9 @@ func main() {
 		log.Fatalf("Error on opening database connection: %s", err.Error())
 	}else {fmt.Println("verified db is open")}
 
-
+	// ************************************************
 	// Authentication and Authorization and Sessions
+	// *************************************************
 	r.GET("/", HomeHandler)
 	r.GET("/getUser", GetUser)
 	r.POST("/getUser", GetUser)
