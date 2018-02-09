@@ -85,7 +85,6 @@ func SetUser(w http.ResponseWriter, r *http.Request, _ httprouter.Params){
 	log.Println("credentials: " + strconv.FormatBool(acctChck))
 	if acctChck {
 		log.Println("Account already used")
-		http.
 		http.Error(w,"Account already used", 418)
 	}
 
