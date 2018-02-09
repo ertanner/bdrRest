@@ -81,6 +81,7 @@ func main() {
 	r.GET("/", HomeHandler)
 	r.GET("/getUser", GetUser)
 	r.POST("/getUser", GetUser)
+	r.POST("/setUser", SetUser)
 	r.GET("/index", indexPageHandler)
 	r.POST("/login", loginHandler)
 	r.POST("/logout", logoutHandler)

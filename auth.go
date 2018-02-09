@@ -28,10 +28,10 @@ func GetUser(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	if err != nil {
 		panic(err.Error())
 	}
-	name :=  data["name"]
+	name :=  data["username"]
 	pass := data["password"]
-	email := data["email"]
-
+	email := data["accountname"]
+	fmt.Println(name + " " + pass + " " + email)
 	if name != "" && pass != "" {
 		//var cred bool
 		// check to be sure the user is in the db
@@ -64,7 +64,36 @@ func GetUser(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	}
 }
 func SetUser(w http.ResponseWriter, r *http.Request, _ httprouter.Params){
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		panic(err.Error())
+	}
+	log.Println(body)
+	log.Println(r)
+	var data map[string]string
+	err = json.Unmarshal(body, &data)
+	if err != nil {
+		panic(err.Error())
+	}
+	name :=  data["username"]
+	pass := data["password"]
+	email := data["accountname"]
+	fmt.Println(name + " " + pass + " " + email)
 
+	//check if valid user
+	acctChck := checkAccountName(email)
+	log.Println("credentials: " + strconv.FormatBool(acctChck))
+	if acctChck {
+		log.Println("Account already used")
+		http.
+		http.Error(w,"Account already used", 418)
+	}
+
+	//return if invalid
+	//write user to db
+	// call hashAndSaltpwd
+	//call setSession
+	//return sessionCookie to user
 }
 func ChagePwd(w http.ResponseWriter, r *http.Request, _ httprouter.Params){
 
@@ -121,6 +150,19 @@ func getPwd(name string, pass string) bool {
 	var ok bool = false
 	var msg string
 	err := db.QueryRow("SELECT userName FROM user WHERE userName=? and userPwd=?", name, pass).Scan(&msg)
+	if err != nil {
+		log.Println(err)
+		ok = false
+	}else {
+		ok = true
+	}
+	return ok
+}
+func checkAccountName(accountName string) bool{
+	// Check the account name
+	var ok bool = false
+	var msg string
+	err := db.QueryRow("SELECT accountName FROM user WHERE accountName=?", accountName).Scan(&msg)
 	if err != nil {
 		log.Println(err)
 		ok = false
