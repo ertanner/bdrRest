@@ -12,6 +12,7 @@ import (
 	"github.com/gorilla/sessions"
 
 	//"github.com/satori/go.uuid"
+	//"bytes"
 )
 var store = sessions.NewCookieStore([]byte("radar-super-secret"))
 
@@ -84,8 +85,15 @@ func SetUser(w http.ResponseWriter, r *http.Request, _ httprouter.Params){
 	acctChck := checkAccountName(email)
 	log.Println("credentials: " + strconv.FormatBool(acctChck))
 	if acctChck {
+		type Error struct{
+			Err	string
+		}
 		log.Println("Account already used")
-		http.Error(w,"Account already used", 418)
+		jsonStr := map[string]string{"Err": "Account already used"}
+		//jsonValue, _ := json.Marshal(jsonStr)
+		json.NewEncoder(w).Encode(jsonStr)
+		//http.Error(w,"Account already used", 418)
+		//http.StatusTeapot()
 	}
 
 	//return if invalid
